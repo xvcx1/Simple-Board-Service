@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>Tables - SB Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+  <link href="/css/styles.css" rel="stylesheet" />
+  <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+  <style>
+    .write-form {
+      width: 70%;
+      margin: 0 auto;
+    }
+  </style>
+
+</head>
+<body class="sb-nav-fixed">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+  <!-- Navbar Brand-->
+  <a class="navbar-brand ps-3"  href="/home">H-System</a>
+  <!-- Sidebar Toggle-->
+  <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+  <!-- Navbar Search-->
+  <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+    <div class="input-group">
+      <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+      <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+    </div>
+  </form>
+  <!-- Navbar-->
+  <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" href="#!">Settings</a></li>
+        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+        <li><hr class="dropdown-divider" /></li>
+        <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<div id="layoutSidenav">
+  <div id="layoutSidenav_nav">
+    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+      <div class="sb-sidenav-menu">
+        <div class="nav">
+          <div class="sb-sidenav-menu-heading">기업</div>
+          <a class="nav-link" href="/home">
+            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+            기업 정보
+          </a>
+          <div class="sb-sidenav-menu-heading">인사</div>
+          <a class="nav-link" href="/home">
+            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+            직원 등록
+          </a>
+          <a class="nav-link" href="/home">
+            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+            직원 리스트
+          </a>
+          <a class="nav-link" href="/home">
+            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+            인사 관리
+          </a>
+          <div class="sb-sidenav-menu-heading">커뮤니티</div>
+          <a class="nav-link" href="#">
+            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+            공지 사항
+          </a>
+          <a class="nav-link"> <!-- 현재 위치 -->
+            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+            직원 게시판
+          </a>
+        </div>
+      </div>
+      <div class="sb-sidenav-footer">
+        <div class="small">Logged in as:</div>
+        Start Bootstrap
+      </div>
+    </nav>
+  </div>
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid px-4">
+        <h1 class="mt-4">직원 게시판</h1>
+        <div class="card mb-4">
+          <div class="card-body">
+            직원 게시판에서는 게시물 규칙을 잘 지켜주시길 바랍니다.
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            <!-- 게시글 제목 -->
+          </div>
+          <div class="card-body">
+
+            <div class="container">
+              <table class="table table-bordered">
+                <tr>
+                  <td style="width: 8%; text-align: center;">제목</td>
+                  <td th:text="${board.getTitle()}"></td>
+                </tr>
+                <tr>
+                  <td style="width: 8%; text-align: center;">작성자</td>
+                  <td th:text="${board.getUserId()}"></td>
+                </tr>
+                <tr>
+                  <td style="width: 8%; text-align: center;">조회수</td>
+                  <td th:text="${board.getViews()}"></td>
+                </tr>
+                <tr>
+                  <td style="white-space:pre; height: 800px;" colspan="2" th:text="${board.getContent()}"></td>
+                </tr> <!-- white-space:pre는 그대로 표현 -->
+              </table>
+              <center>
+                <button type="button" class="btn btn-secondary btn"
+                        th:onclick="|location.href='/board/list?page=1'|">목록으로</button>
+                <button type="button" class="btn btn-primary btn"
+                        th:if="${board.getUserId().equals(session.loginUser.getId())}"
+                        th:onclick="|location.href='@{/board/modify(boardNo=${board.getBoardNo()})}'|">수정하기</button> <!-- 본인 글을 조회했을 경우에만 나타남 -->
+                <button type="button" class="btn btn-primary btn"
+                        th:if="${board.getUserId().equals(session.loginUser.getId())}"
+                        th:onclick="|location.href='@{/board/delete(boardNo=${board.getBoardNo()})}'|">삭제하기</button> <!-- onClick에서는 링크표기가 상이함 -->
+              </center>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="py-4 bg-light mt-auto">
+      <div class="container-fluid px-4">
+        <div class="d-flex align-items-center justify-content-between small">
+          <div class="text-muted">Copyright &copy; Your Website 2022</div>
+          <div>
+            <a href="#">Privacy Policy</a>
+            &middot;
+            <a href="#">Terms &amp; Conditions</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<!-- <script src="/js/scripts.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script> -->
+<!-- <script src="/js/datatables-simple-demo.js"></script> -->
+</body>
+</html>
