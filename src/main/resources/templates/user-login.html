@@ -26,7 +26,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-5">
                         <div class="card shadow-lg border-0 rounded-lg mt-5">
-                            <div class="card-header"><h3 class="text-center font-weight-light my-4">직원 로그인</h3></div>
+                            <div class="card-header"><h3 class="text-center font-weight-light my-4">로그인</h3></div>
                             <div class="card-body">
 
                                 <form action="/user/login" th:object="${loginForm}" method="post">
@@ -42,12 +42,8 @@
                                                th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'"/> <!-- Password 입력 -->
                                         <p class="fieldError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">error</p>
                                     </div>
-<!--                                    <div class="form-check mb-3">-->
-<!--                                        <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />-->
-<!--                                        <label class="form-check-label" for="inputRememberPassword">Remember Password</label>-->
-<!--                                    </div>-->
                                     <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                        <button class="btn btn-light" href="password.html">패스워드 찾기</button>
+                                        <h2 class="btn btn-light">패스워드 찾기 (미구현)</h2>
                                         <button type="submit" class="btn btn-primary">로그인</button>
                                     </div>
                                 </form>
